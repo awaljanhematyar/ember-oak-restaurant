@@ -1,3 +1,6 @@
+/**
+ * Node test coverage for sample data, combined filters, cart totals, Toronto dates, validation, and storage recovery.
+ */
 import test from "node:test";
 import assert from "node:assert/strict";
 import { menu } from "../src/data/menu.js";
@@ -11,6 +14,10 @@ import {
   writeStorage,
   torontoToday,
 } from "../src/utils/shop.js";
+
+// ========================================
+// MENU DATA AND FILTERING
+// ========================================
 test("24 complete menu records with unique ids and positive CAD prices", () => {
   assert.equal(menu.length, 24);
   assert.equal(new Set(menu.map((i) => i.id)).size, 24);
@@ -35,6 +42,10 @@ test("search, category and multiple dietary filters combine", () => {
     ),
   );
 });
+
+// ========================================
+// CART VALIDATION AND TOTALS
+// ========================================
 test("cart rejects invalid, duplicated and unavailable records", () => {
   assert.deepEqual(
     cleanCart([
@@ -65,6 +76,10 @@ test("pickup and delivery totals include quantity and rounded sample HST", () =>
   });
   assert.equal(totals([], true).total, 0);
 });
+
+// ========================================
+// RESERVATION VALIDATION
+// ========================================
 test("reservation rejects missing fields, past and impossible dates", () => {
   assert.equal(Object.keys(reservationErrors({}, "2026-10-20")).length, 5);
   const valid = {
@@ -98,6 +113,10 @@ test("same-day reservations reject elapsed Toronto dinner times", () => {
     {},
   );
 });
+
+// ========================================
+// CHECKOUT AND STORAGE VALIDATION
+// ========================================
 test("checkout validates names, emails and delivery details", () => {
   assert.deepEqual(
     checkoutErrors({ name: "Alex", email: "alex@example.com" }, false),

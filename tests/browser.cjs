@@ -1,8 +1,13 @@
-// Optional browser QA: PLAYWRIGHT_MODULE can point to an existing Playwright installation.
+/**
+ * End-to-end demo flows and responsive checks; PLAYWRIGHT_MODULE and TEST_URL select the optional browser setup.
+ */
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || "playwright");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 (async () => {
+  // ========================================
+  // BROWSER SETUP
+  // ========================================
   const browser = await chromium.launch({ headless: true, channel: "msedge" });
   const page = await browser.newPage({
     viewport: { width: 1440, height: 1000 },
@@ -20,6 +25,10 @@ const fs = require("node:fs");
       }));
     });
   }
+
+  // ========================================
+  // ROUTES AND RESPONSIVE LAYOUTS
+  // ========================================
   for (const width of [375, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 1000 });
     for (const route of [
@@ -57,6 +66,10 @@ const fs = require("node:fs");
   console.log(
     "PASS: ten routes, four widths, one h1 and no horizontal overflow",
   );
+
+  // ========================================
+  // ASSETS AND DESKTOP CAPTURE
+  // ========================================
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto(base);
   await readyImages();
@@ -71,6 +84,10 @@ const fs = require("node:fs");
     path: "test-results/home-desktop.png",
     fullPage: true,
   });
+
+  // ========================================
+  // MENU FILTERING
+  // ========================================
   await page.goto(base + "/menu");
   await page.getByRole("button", { name: "Mains", exact: true }).click();
   await page.getByLabel("Vegan", { exact: true }).check();
@@ -81,6 +98,9 @@ const fs = require("node:fs");
   assert.equal(await page.locator(".dish-card").count(), 0);
   await page.getByRole("button", { name: "Clear all filters" }).click();
   assert.equal(await page.locator(".dish-card").count(), 24);
+  // ========================================
+  // CART MANAGEMENT
+  // ========================================
   await page
     .getByRole("button", { name: "Add Oak-fired Ribeye to cart", exact: true })
     .click();
@@ -107,6 +127,10 @@ const fs = require("node:fs");
   console.log(
     "PASS: filter combinations, empty state, quantity, totals and reload persistence",
   );
+
+  // ========================================
+  // DELIVERY CHECKOUT
+  // ========================================
   await page.goto(base + "/checkout");
   await page.getByRole("button", { name: "Complete demo checkout" }).click();
   assert.equal(await page.locator('[aria-invalid="true"]').count(), 2);
@@ -134,8 +158,12 @@ const fs = require("node:fs");
   console.log(
     "PASS: checkout validation, delivery summary, simulation receipt and cart clearing",
   );
+  // ========================================
+  // PICKUP CHECKOUT
+  // ========================================
   await page.goto(base + '/menu');
   await page.getByRole('button', {name:'Add House Sourdough to cart',exact:true}).click();
+
   await page.goto(base + '/checkout');
   await page.getByLabel('Sample name',{exact:true}).fill('Sample Guest');
   await page.getByLabel('Sample email',{exact:true}).fill('sample@example.com');
@@ -145,6 +173,10 @@ const fs = require("node:fs");
   await page.getByRole('heading',{name:'A little taste of the experience.'}).waitFor();
   assert.ok((await page.locator('main').textContent()).includes('Pickup simulation'));
   console.log('PASS: decrease/remove controls and pickup checkout');
+
+  // ========================================
+  // RESERVATION VALIDATION
+  // ========================================
   await page.goto(base + "/reservations");
   await page.getByRole("button", { name: "Save demo request" }).click();
   assert.equal(await page.locator('[aria-invalid="true"]').count(), 4);
@@ -168,6 +200,10 @@ const fs = require("node:fs");
   console.log(
     "PASS: reservation invalid fields/date, successful local request and minimal saved data",
   );
+
+  // ========================================
+  // LIGHTBOX KEYBOARD ACCESSIBILITY
+  // ========================================
   await page.goto(base + "/gallery");
   const first = page.locator(".gallery-tile").first();
   await first.click();
@@ -198,6 +234,10 @@ const fs = require("node:fs");
   console.log(
     "PASS: modal initial focus, Tab trap, arrow navigation, Escape and focus restoration",
   );
+
+  // ========================================
+  // CONTACT SUBMISSION
+  // ========================================
   await page.goto(base + "/contact");
   await page.getByLabel("Sample name").fill("Alex Guest");
   await page.getByLabel("Sample email").fill("alex@example.com");
@@ -208,12 +248,19 @@ const fs = require("node:fs");
   await page
     .getByRole("heading", { name: "Demo message completed." })
     .waitFor();
+  // ========================================
+  // STORAGE RECOVERY
+  // ========================================
   await page.goto(base + "/menu");
+
   await page.evaluate(() => {
     localStorage.setItem("eo-cart-v1", "broken");
   });
   await page.reload();
   assert.equal(await page.locator(".dish-card").count(), 24);
+  // ========================================
+  // MOBILE NAVIGATION
+  // ========================================
   await page.setViewportSize({ width: 375, height: 900 });
   await page.goto(base);
   await page.getByRole("button", { name: "Open navigation" }).click();
@@ -228,6 +275,9 @@ const fs = require("node:fs");
     path: "test-results/home-mobile.png",
     fullPage: true,
   });
+  // ========================================
+  // IMAGE FALLBACK
+  // ========================================
   await page.goto(base + "/menu");
   await page.evaluate(
     () =>
@@ -244,6 +294,10 @@ const fs = require("node:fs");
       .first()
       .evaluate((i) => i.complete && i.naturalWidth > 0),
   );
+
+  // ========================================
+  // RUNTIME ERRORS AND CLEANUP
+  // ========================================
   assert.deepEqual(errors, []);
   console.log(
     "PASS: contact simulation, corrupt storage, mobile navigation, image fallback; no runtime page errors",

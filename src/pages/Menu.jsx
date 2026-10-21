@@ -1,9 +1,16 @@
+/**
+ * Shared menu and ordering page with combined search, category/dietary filters, and cart actions.
+ */
 import { useState } from "react";
 import { Search, SlidersHorizontal } from "lucide-react";
 import { menu, categories } from "../data/menu.js";
 import { filterMenu } from "../utils/shop.js";
 import { DishCard, Heading } from "../components/UI.jsx";
+
 export default function Menu({ add, ordering = false }) {
+  // ========================================
+  // MENU FILTERING
+  // ========================================
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
   const [diets, setDiets] = useState([]);
@@ -13,6 +20,7 @@ export default function Menu({ add, ordering = false }) {
     setCategory("All");
     setDiets([]);
   }
+
   return (
     <div className="wrap">
       <Heading
@@ -31,6 +39,9 @@ export default function Menu({ add, ordering = false }) {
           ? "Build a demo order for pickup or delivery. No food will be prepared and no payment is taken."
           : "From the first bite to the last little indulgence. Explore our fictional seasonal menu, priced in Canadian dollars."}
       </Heading>
+      {/* ========================================
+          SEARCH AND FILTER CONTROLS
+          ======================================== */}
       <div className="menu-tools">
         <label className="search">
           <Search size={19} />
@@ -79,6 +90,9 @@ export default function Menu({ add, ordering = false }) {
           Reset filters
         </button>
       </div>
+      {/* ========================================
+          MENU RESULTS AND EMPTY STATE
+          ======================================== */}
       <div className="results-line">
         <p role="status">
           {items.length} {items.length === 1 ? "dish" : "dishes"} to discover

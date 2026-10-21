@@ -1,3 +1,6 @@
+/**
+ * Validates simulated reservation requests and saves only non-contact request metadata locally.
+ */
 import { useState } from "react";
 import { Clock, MapPin } from "lucide-react";
 import { Heading, Field, DemoNote, ButtonLink } from "../components/UI.jsx";
@@ -6,9 +9,14 @@ import {
   torontoToday,
   writeStorage,
 } from "../utils/shop.js";
+
 export default function Reservations() {
   const [errors, setErrors] = useState({});
   const [result, setResult] = useState(null);
+
+  // ========================================
+  // RESERVATION SUBMISSION
+  // ========================================
   function submit(e) {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.currentTarget));
@@ -29,6 +37,10 @@ export default function Reservations() {
     const saved = writeStorage("eo-reservation-v1", request);
     setResult({ ...request, saved });
   }
+
+  // ========================================
+  // RESERVATION PAGE LAYOUT
+  // ========================================
   return (
     <div className="wrap">
       <Heading
@@ -65,6 +77,9 @@ export default function Reservations() {
             </p>
           </div>
         </aside>
+        {/* ========================================
+            REQUEST RESULT AND FORM
+            ======================================== */}
         {result ? (
           <div className="form-panel" role="status">
             <p className="eyebrow">SIMULATION COMPLETE</p>

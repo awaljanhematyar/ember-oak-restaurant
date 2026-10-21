@@ -1,3 +1,6 @@
+/**
+ * Renders shared order totals, cart controls, and simulated pickup/delivery checkout without payments.
+ */
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Minus, Plus, Trash2 } from "lucide-react";
@@ -11,6 +14,10 @@ import {
   DemoNote,
   Field,
 } from "../components/UI.jsx";
+
+// ========================================
+// ORDER SUMMARY
+// ========================================
 export function Summary({ cart, delivery = false }) {
   const t = totals(cart, delivery);
   return (
@@ -40,6 +47,10 @@ export function Summary({ cart, delivery = false }) {
     </div>
   );
 }
+
+// ========================================
+// CART MANAGEMENT
+// ========================================
 export function Cart({ cart, update }) {
   return (
     <div className="wrap">
@@ -111,10 +122,18 @@ export function Cart({ cart, update }) {
     </div>
   );
 }
+
 export function Checkout({ cart, clear }) {
+  // ========================================
+  // CHECKOUT STATE
+  // ========================================
   const [delivery, setDelivery] = useState(false);
   const [errors, setErrors] = useState({});
   const [receipt, setReceipt] = useState(null);
+
+  // ========================================
+  // CHECKOUT SUBMISSION
+  // ========================================
   function submit(e) {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.currentTarget));
@@ -133,6 +152,10 @@ export function Checkout({ cart, clear }) {
     });
     clear();
   }
+
+  // ========================================
+  // SIMULATED ORDER RECEIPT
+  // ========================================
   if (receipt)
     return (
       <div className="wrap">
@@ -152,6 +175,10 @@ export function Checkout({ cart, clear }) {
         <ButtonLink to="/menu">Explore more dishes</ButtonLink>
       </div>
     );
+
+  // ========================================
+  // CHECKOUT FORM
+  // ========================================
   return (
     <div className="wrap">
       <Heading eyebrow="THE FINAL DETAILS" title="Bring the kitchen home.">

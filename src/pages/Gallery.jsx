@@ -1,7 +1,14 @@
+/**
+ * Illustrative photo gallery with a native modal, keyboard navigation, and restored trigger focus.
+ */
 import { useEffect, useRef, useState } from "react";
 import { X, ArrowLeft, ArrowRight } from "lucide-react";
 import { Heading, Photo } from "../components/UI.jsx";
 import { photos } from "../data/menu.js";
+
+// ========================================
+// GALLERY CONTENT
+// ========================================
 export const gallery = [
   {
     src: photos.room,
@@ -34,10 +41,18 @@ export const gallery = [
     label: "Always a sweet finish",
   },
 ];
+
 export default function Gallery() {
+  // ========================================
+  // LIGHTBOX STATE
+  // ========================================
   const [active, setActive] = useState(null);
   const dialog = useRef(null);
   const trigger = useRef(null);
+
+  // ========================================
+  // DIALOG FOCUS LIFECYCLE
+  // ========================================
   useEffect(() => {
     if (active === null) return;
     const el = dialog.current;
@@ -51,6 +66,10 @@ export default function Gallery() {
       trigger.current?.focus();
     };
   }, [active !== null]);
+
+  // ========================================
+  // LIGHTBOX EVENT HANDLERS
+  // ========================================
   function close() {
     setActive(null);
   }
@@ -73,6 +92,7 @@ export default function Gallery() {
       }
     }
   }
+
   return (
     <div className="wrap">
       <Heading
@@ -82,6 +102,9 @@ export default function Gallery() {
         An illustrative collection of the atmosphere and seasonal cooking that
         inspire our fictional kitchen.
       </Heading>
+      {/* ========================================
+          GALLERY GRID
+          ======================================== */}
       <div className="gallery-grid">
         {gallery.map((p, i) => (
           <button
@@ -105,6 +128,9 @@ export default function Gallery() {
         Illustrative photography from Unsplash. These images do not depict an
         actual Ember & Oak restaurant.
       </p>
+      {/* ========================================
+          ACCESSIBLE LIGHTBOX
+          ======================================== */}
       {active !== null && (
         <dialog
           ref={dialog}

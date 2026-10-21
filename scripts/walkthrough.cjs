@@ -1,7 +1,12 @@
-// Optional: run with an existing Playwright install and a local preview server.
+/**
+ * Records a silent portfolio walkthrough using an existing Playwright installation and the TEST_URL preview server.
+ */
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const fs = require('node:fs/promises');
 (async () => {
+  // ========================================
+  // BROWSER AND VIDEO SETUP
+  // ========================================
   const browser = await chromium.launch({ channel: 'msedge', headless: true });
   const context = await browser.newContext({
     viewport: { width: 1440, height: 900 },
@@ -10,6 +15,10 @@ const fs = require('node:fs/promises');
   const page = await context.newPage();
   const base = process.env.TEST_URL || 'http://127.0.0.1:5173';
   const pause = () => page.waitForTimeout(5000);
+
+  // ========================================
+  // WALKTHROUGH CAPTURE
+  // ========================================
   await page.goto(base); await pause();
   await page.locator('main').evaluate(el => el.querySelector('.featured').scrollIntoView()); await pause();
   await page.goto(base + '/menu'); await page.getByRole('button', { name: 'Mains', exact: true }).click(); await pause();
@@ -18,6 +27,10 @@ const fs = require('node:fs/promises');
   await page.goto(base + '/checkout'); await page.getByLabel('Delivery · $5.00').check(); await pause();
   await page.goto(base + '/reservations'); await pause();
   await page.goto(base + '/gallery'); await page.locator('.gallery-tile').first().click(); await pause();
+
+  // ========================================
+  // VIDEO EXPORT
+  // ========================================
   const video = page.video(); await context.close();
   await fs.copyFile(await video.path(), 'test-results/walkthrough.webm');
   await browser.close();

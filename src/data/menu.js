@@ -1,3 +1,9 @@
+/**
+ * Defines illustrative image sources, 24 sample dishes, and the shared menu data contract.
+ */
+// ========================================
+// IMAGE SOURCES AND LOCAL ASSETS
+// ========================================
 export const imageSources = {
   dining:
     "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1600&q=85",
@@ -16,6 +22,11 @@ export const imageSources = {
 export const photos = Object.fromEntries(
   Object.keys(imageSources).map((key) => [key, `/images/${key}.jpg`]),
 );
+
+// Tuple order: id, name, category, CAD price, dietary labels, description, photo key.
+// ========================================
+// MENU RECORDS
+// ========================================
 const records = [
   [
     "burrata",
@@ -234,6 +245,10 @@ const records = [
     "drinks",
   ],
 ];
+
+// ========================================
+// MENU DATA CONTRACT
+// ========================================
 export const menu = records.map(
   ([id, name, category, price, dietary, description, photo]) => ({
     id,

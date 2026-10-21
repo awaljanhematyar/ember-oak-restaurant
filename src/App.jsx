@@ -1,3 +1,9 @@
+/**
+ * Application shell, shared cart state, route transitions, and accessible site navigation.
+ */
+// ========================================
+// APPLICATION DEPENDENCIES
+// ========================================
 import { useEffect, useState } from "react";
 import { Link, NavLink, Route, Routes, useLocation } from "react-router-dom";
 import {
@@ -15,6 +21,10 @@ import Reservations from "./pages/Reservations.jsx";
 import { Cart, Checkout } from "./pages/Shop.jsx";
 import Gallery from "./pages/Gallery.jsx";
 import Contact from "./pages/Contact.jsx";
+
+// ========================================
+// NAVIGATION CONFIGURATION
+// ========================================
 const navigation = [
   ["/", "Home"],
   ["/menu", "Menu"],
@@ -23,6 +33,9 @@ const navigation = [
   ["/contact", "Contact"],
 ];
 export default function App() {
+  // ========================================
+  // STATE MANAGEMENT
+  // ========================================
   const [cart, setCart] = useState(() =>
     cleanCart(readStorage("eo-cart-v1", [])),
   );
@@ -30,6 +43,10 @@ export default function App() {
   const [notice, setNotice] = useState("");
   const [storageOk, setStorageOk] = useState(true);
   const location = useLocation();
+
+  // ========================================
+  // PERSISTENCE AND PAGE EFFECTS
+  // ========================================
   useEffect(() => {
     setStorageOk(writeStorage("eo-cart-v1", cart));
   }, [cart]);
@@ -44,6 +61,10 @@ export default function App() {
     const timer = setTimeout(() => setNotice(""), 3500);
     return () => clearTimeout(timer);
   }, [notice]);
+
+  // ========================================
+  // CART MANAGEMENT
+  // ========================================
   function add(id) {
     const row = cart.find((r) => r.id === id);
     if (row?.quantity >= 20) {
@@ -68,6 +89,10 @@ export default function App() {
     );
   }
   const count = cart.reduce((sum, r) => sum + r.quantity, 0);
+
+  // ========================================
+  // APPLICATION LAYOUT
+  // ========================================
   return (
     <>
       <a className="skip-link" href="#main">
@@ -77,6 +102,9 @@ export default function App() {
         A fictional Toronto restaurant · A real taste of what’s possible{" "}
         <span>PORTFOLIO DEMO</span>
       </div>
+      {/* ========================================
+          PRIMARY NAVIGATION
+          ======================================== */}
       <header className="site-header">
         <div className="nav-wrap">
           <Link
@@ -131,6 +159,9 @@ export default function App() {
           </div>
         </div>
       </header>
+      {/* ========================================
+          ACCESSIBLE FEEDBACK
+          ======================================== */}
       <div
         role="status"
         aria-live="polite"
@@ -144,6 +175,9 @@ export default function App() {
           only.
         </p>
       )}
+      {/* ========================================
+          PAGE ROUTES
+          ======================================== */}
       <main id="main" tabIndex={-1}>
         <Routes>
           <Route path="/" element={<Home add={add} />} />
@@ -161,6 +195,9 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
+      {/* ========================================
+          SITE FOOTER
+          ======================================== */}
       <footer className="site-footer">
         <div className="wrap footer-grid">
           <div>

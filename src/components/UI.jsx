@@ -1,6 +1,13 @@
+/**
+ * Shared image, navigation, menu-card, form, and demo-feedback components.
+ */
 import { ArrowUpRight, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 import { money } from "../utils/shop.js";
+
+// ========================================
+// DISPLAY COMPONENTS
+// ========================================
 export function Photo({ src, alt, className = "", eager = false, ...props }) {
   return (
     <img
@@ -33,6 +40,10 @@ export function Heading({ eyebrow, title, children }) {
     </header>
   );
 }
+
+// ========================================
+// MENU CARDS
+// ========================================
 export function DishCard({ item, add }) {
   return (
     <article className="dish-card">
@@ -70,6 +81,10 @@ export function DishCard({ item, add }) {
     </article>
   );
 }
+
+// ========================================
+// FORM CONTROLS
+// ========================================
 export function Field({ label, name, error, children, ...props }) {
   const id = `field-${name}`;
   return (
@@ -102,6 +117,10 @@ export function Field({ label, name, error, children, ...props }) {
     </div>
   );
 }
+
+// ========================================
+// FEEDBACK AND EMPTY STATES
+// ========================================
 export function DemoNote() {
   return (
     <p className="demo-note">

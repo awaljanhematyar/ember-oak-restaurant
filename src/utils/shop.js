@@ -1,8 +1,15 @@
+/**
+ * Menu/cart calculations, guarded versioned storage, and Toronto-aware demo form validation.
+ */
 import { menu } from "../data/menu.js";
 export const money = (value) =>
   new Intl.NumberFormat("en-CA", { style: "currency", currency: "CAD" }).format(
     value,
   );
+
+// ========================================
+// MENU FILTERING
+// ========================================
 export function filterMenu(items, query = "", category = "All", diets = []) {
   return items.filter(
     (item) =>
@@ -13,6 +20,10 @@ export function filterMenu(items, query = "", category = "All", diets = []) {
         .includes(query.trim().toLowerCase()),
   );
 }
+
+// ========================================
+// CART VALIDATION AND TOTALS
+// ========================================
 export function cleanCart(value) {
   if (!Array.isArray(value)) return [];
   const seen = new Set();
@@ -44,6 +55,10 @@ export function totals(cart, delivery = false) {
     total: Math.round((subtotal + fee + tax) * 100) / 100,
   };
 }
+
+// ========================================
+// LOCAL STORAGE
+// ========================================
 export function readStorage(key, fallback) {
   try {
     const data = JSON.parse(localStorage.getItem(key));
@@ -60,6 +75,10 @@ export function writeStorage(key, value) {
     return false;
   }
 }
+
+// ========================================
+// DATES AND FORM VALIDATION
+// ========================================
 export function torontoToday(now = new Date()) {
   return new Intl.DateTimeFormat("en-CA", {
     timeZone: "America/Toronto",

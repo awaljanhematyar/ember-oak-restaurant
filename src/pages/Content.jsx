@@ -1,10 +1,20 @@
+/**
+ * Presentation pages for the fictional restaurant: home, brand story, and route-not-found content.
+ */
 import { ArrowRight, Flame, Leaf, UtensilsCrossed, Clock3, MapPin, ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
 import { menu, photos } from "../data/menu.js";
 import { ButtonLink, Heading, Photo, DishCard } from "../components/UI.jsx";
+
+// ========================================
+// HOME PAGE
+// ========================================
 export function Home({ add }) {
   return (
     <>
+      {/* ========================================
+          CINEMATIC HERO
+          ======================================== */}
       <section className="hero">
         <div className="hero-shell wrap">
         <div className="hero-content">
@@ -46,6 +56,9 @@ export function Home({ add }) {
         </div>
         <span className="hero-side">THE ART OF GATHERING</span>
       </section>
+      {/* ========================================
+          RESTAURANT INTRODUCTION
+          ======================================== */}
       <section className="welcome section wrap">
         <p className="eyebrow">WELCOME TO EMBER & OAK</p>
         <div className="welcome-grid">
@@ -66,6 +79,9 @@ export function Home({ add }) {
           </div>
         </div>
       </section>
+      {/* ========================================
+          FEATURED MENU
+          ======================================== */}
       <section className="section featured">
         <div className="wrap">
           <div className="section-heading">
@@ -90,6 +106,9 @@ export function Home({ add }) {
           </p>
         </div>
       </section>
+      {/* ========================================
+          RESERVATION INVITATION
+          ======================================== */}
       <section className="story-strip wrap section">
         <Photo
           src={photos.room}
@@ -109,10 +128,16 @@ export function Home({ add }) {
           <ButtonLink to="/reservations">Plan your evening</ButtonLink>
         </div>
       </section>
+      {/* ========================================
+          ORDERING INTRODUCTION
+          ======================================== */}
       <section className="ordering-story wrap section">
         <div className="ordering-visual"><Photo src={photos.salad} alt="A vibrant bowl of fresh seasonal vegetables"/><span className="ordering-badge"><Leaf size={24}/> Fresh thinking.<br/>Full flavour.</span></div>
         <div><p className="eyebrow">YOUR FAVOURITES. YOUR EVENING.</p><h2>Good taste.<br/><em>Wherever you gather.</em></h2><p>Make a little room for something delicious. Explore the pickup and delivery experience, from your first favourite to the final detail.</p><div className="ordering-steps"><div><span>01</span><div><h3>Find your flavour</h3><p>Seasonal plates, comforting classics and something sweet.</p></div></div><div><span>02</span><div><h3>Make it your evening</h3><p>Try pickup or delivery in our clearly labelled demo checkout.</p></div></div></div><ButtonLink to="/order">Build your demo order</ButtonLink></div>
       </section>
+      {/* ========================================
+          KITCHEN VALUES
+          ======================================== */}
       <section className="values wrap">
         <div>
           <Flame />
@@ -133,6 +158,10 @@ export function Home({ add }) {
     </>
   );
 }
+
+// ========================================
+// ABOUT PAGE
+// ========================================
 export function About() {
   return (
     <>
@@ -181,6 +210,10 @@ export function About() {
     </>
   );
 }
+
+// ========================================
+// NOT FOUND PAGE
+// ========================================
 export function NotFound() {
   return (
     <div className="wrap">

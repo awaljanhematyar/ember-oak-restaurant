@@ -1,5 +1,12 @@
+/**
+ * Downloads the documented stock images into public assets; rerunning replaces those local image files.
+ */
 import { mkdir, writeFile } from 'node:fs/promises';
 import { imageSources } from '../src/data/menu.js';
+
+// ========================================
+// ASSET DOWNLOADS
+// ========================================
 await mkdir('public/images', { recursive: true });
 for (const [name, url] of Object.entries(imageSources)) {
   const response = await fetch(url, { signal: AbortSignal.timeout(30000) });

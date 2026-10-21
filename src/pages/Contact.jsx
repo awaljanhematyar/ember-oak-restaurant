@@ -1,5 +1,9 @@
+/**
+ * Simulated contact form with native validation and a clearly labelled Toronto demo map.
+ */
 import { useState } from "react";
 import { Heading, Field, DemoNote } from "../components/UI.jsx";
+
 export default function Contact() {
   const [sent, setSent] = useState(false);
   return (
@@ -31,6 +35,9 @@ export default function Contact() {
             with this demo.
           </p>
         </aside>
+        {/* ========================================
+            CONTACT FORM AND FEEDBACK
+            ======================================== */}
         {sent ? (
           <div className="form-panel" role="status">
             <h2>Demo message completed.</h2>
@@ -83,6 +90,9 @@ export default function Contact() {
           </form>
         )}
       </div>
+      {/* ========================================
+          DEMO LOCATION MAP
+          ======================================== */}
       <section className="contact-map section" aria-labelledby="map-heading">
         <div className="section-heading"><div><p className="eyebrow">A LITTLE TORONTO SPIRIT</p><h2 id="map-heading">Our city. <em>Your inspiration.</em></h2></div><span className="map-badge">DEMO LOCATION</span></div>
         <p>This map shows Toronto, Ontario for illustration only. Ember & Oak Kitchen is fictional and has no physical restaurant at the map’s centre.</p>

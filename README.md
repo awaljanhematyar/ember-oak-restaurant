@@ -51,7 +51,15 @@ Ember & Oak Kitchen demonstrates a complete restaurant browsing experience, from
 
 ## Screenshots
 
-Website screenshots are not currently included in the repository. Explore the desktop and mobile layouts in the [live demo](https://ember-oak-restaurant-rho.vercel.app).
+Real homepage captures from the [live demo](https://ember-oak-restaurant-rho.vercel.app), showing the desktop and mobile layouts.
+
+### Desktop · 1440px
+
+![Ember & Oak Kitchen desktop homepage with dark styling, blue action buttons, and food photography](docs/screenshots/desktop-home.png)
+
+### Mobile · 390px
+
+![Ember & Oak Kitchen mobile homepage with responsive navigation and stacked hero layout](docs/screenshots/mobile-home.png)
 
 ## Installation and Local Development
 

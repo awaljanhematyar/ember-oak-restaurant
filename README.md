@@ -1,73 +1,125 @@
 # Ember & Oak Kitchen
 
-A polished fictional Toronto restaurant portfolio demo, built with React, Vite, JavaScript, Tailwind CSS, React Router and Lucide. No backend, authentication, real reservations, payments or external form submissions.
+**Exceptional Food. Unforgettable Moments.**
 
-## Run locally
+A responsive restaurant website concept for a fictional premium kitchen in Toronto, Ontario. Built with React, it combines a cinematic dark interface with practical menu discovery, a persistent cart, and clearly labelled demo booking and checkout flows.
 
-Requires Node.js 20.19+ or 22.12+ and npm.
+**[View Live Demo →](https://ember-oak-restaurant-rho.vercel.app)** · [GitHub Repository](https://github.com/awaljanhematyar/ember-oak-restaurant)
 
-```sh
-npm install
+> Portfolio demonstration only. Reservations, ordering, checkout, and contact submissions do not reach a restaurant. No bookings are confirmed and no payments are processed.
+
+[Overview](#overview) · [Features](#key-features) · [Stack](#technology-stack) · [Screenshots](#screenshots) · [Setup](#installation-and-local-development) · [Scripts](#available-npm-scripts) · [Structure](#project-structure) · [Limitations](#demo-limitations) · [Author](#author)
+
+## Overview
+
+Ember & Oak Kitchen demonstrates a complete restaurant browsing experience, from exploring seasonal dishes to requesting a table or completing a simulated order. The interface uses a near-black palette, red decorative accents, blue action buttons, circular food photography, and Playfair Display and Inter typography.
+
+| Route | Experience |
+| --- | --- |
+| `/` | Brand introduction and featured dishes |
+| `/menu` | Searchable, filterable menu |
+| `/order` | Menu browsing with ordering context |
+| `/reservations` | Validated demo reservation request |
+| `/cart` | Quantities, item removal, and order totals |
+| `/checkout` | Simulated pickup or delivery checkout |
+| `/about` | Fictional restaurant story |
+| `/gallery` | Photo gallery with keyboard-accessible lightbox |
+| `/contact` | Demo contact form and labelled Toronto map |
+| Other paths | Custom 404 page |
+
+## Key Features
+
+- **Menu discovery:** 24 sample dishes with CAD prices, dietary labels, availability, and combined text, category, and dietary filters.
+- **Persistent cart:** quantity controls, removal, empty states, and versioned `localStorage` persistence with recovery for unavailable or corrupt storage.
+- **Reservation demo:** Toronto-aware date and dinner-time validation, guest counts, and locally saved request metadata.
+- **Checkout demo:** pickup and delivery options, Canadian postal-code validation, itemized totals, illustrative 13% HST, and a simulated receipt.
+- **Responsive navigation:** mobile menu, active route links, and shared cart feedback.
+- **Accessibility features:** skip link, labelled controls, validation feedback, keyboard focus handling, and gallery arrow-key, Tab, and Escape support.
+- **Contact and imagery:** simulated contact form, responsive Google Maps embed labelled as a demo Toronto location, and local stock images with a fallback.
+
+## Technology Stack
+
+| Area | Tools |
+| --- | --- |
+| Interface | React 19, JavaScript, JSX |
+| Styling | Tailwind CSS 4, custom CSS |
+| Routing and icons | React Router DOM 7, Lucide React |
+| Development and build | Vite 7, npm |
+| State and persistence | React hooks, browser `localStorage` |
+| Verification | Node.js test runner; optional Playwright browser checks |
+| Deployment | Vercel configuration with SPA deep-link rewrites |
+
+## Screenshots
+
+Website screenshots are not currently included in the repository. Explore the desktop and mobile layouts in the [live demo](https://ember-oak-restaurant-rho.vercel.app).
+
+## Installation and Local Development
+
+Requires **Node.js 20.19+ or 22.12+** and npm.
+
+```bash
+git clone https://github.com/awaljanhematyar/ember-oak-restaurant.git
+cd ember-oak-restaurant
+npm ci
 npm run dev
-npm test
-npm run build
-npm run preview
-npm run preflight
 ```
 
-Vite prints the local URL. Production output is `dist/`.
+Open the local URL printed by Vite, usually `http://127.0.0.1:5173`. No environment variables, API keys, or backend setup are required.
 
-## Routes and features
+To validate and preview a production build:
 
-- `/`: seasonal restaurant introduction and featured menu.
-- `/menu`, `/order`: 24 sample dishes, combined search/category/diet filters, availability and add-to-cart.
-- `/reservations`: validated demo request; only date, dinner time, guest count and reference are saved locally.
-- `/cart`: quantity updates, removal, totals and versioned browser persistence.
-- `/checkout`: pickup/delivery simulation, sample HST, validated delivery details and order summary. No payment inputs.
-- `/about`, `/gallery`, `/contact`: fictional story, keyboard-accessible photo dialog and simulated contact form.
-- Unknown paths show a 404 page.
+```bash
+npm test
+npm run preflight
+npm run build
+npm run preview
+```
 
-## Privacy and limitations
+### Vercel Deployment
 
-Use sample form details. Names, emails, addresses and contact messages are not persisted or transmitted. Cart contents and limited reservation metadata are stored in localStorage; unavailable or corrupt storage is handled. Checkout receipts last only while the page remains mounted. Clear site storage in your browser to remove saved demo state.
+Import the existing repository into Vercel using the **Vite** preset. Use `npm ci` to install, `npm run build` to build, and `dist` as the output directory. The included `vercel.json` configures the build and SPA deep-link fallback while retaining static asset paths. No environment variables are required.
 
-Availability, hours, delivery fees, dietary information and 13% HST calculations are illustrative. Dietary tags do not establish allergen safety. Stock photos illustrate the concept and do not represent actual dishes or premises. Images are bundled locally with an SVG fallback. Google Fonts require network access; system font fallbacks are provided.
+## Available npm Scripts
 
-## Customize
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start the local Vite development server |
+| `npm test` | Run unit tests for menu data, filtering, cart totals, validation, and storage |
+| `npm run build` | Generate the production site in `dist/` |
+| `npm run preview` | Serve the production build locally |
+| `npm run preflight` | Check private-document exclusions and scan Git-eligible text for known credential patterns |
 
-Optional browser QA uses an existing Playwright installation and Microsoft Edge: set `PLAYWRIGHT_MODULE` to its module path if it is not installed locally, start the app, then run `node tests/browser.cjs`. Set `TEST_URL` to target a different preview URL. This checks ten routes at four widths and exercises the primary flows. `node scripts/walkthrough.cjs` records a silent walkthrough using the same settings. Screenshots and video are saved in the Git-ignored `test-results/` folder. These tools are not runtime dependencies.
+Optional browser checks are available in `tests/browser.cjs` and `tests/design.cjs`. They require a separately available Playwright installation, Microsoft Edge, and a running local server. Set `PLAYWRIGHT_MODULE` if needed and `TEST_URL` to the server URL, then run each file with Node.js. Generated captures stay in the Git-ignored `test-results/` folder. The preflight scan supports manual review; it cannot guarantee detection of every secret.
 
-Edit `src/data/menu.js` for dishes and images, `src/pages/Content.jsx` for brand content, `src/App.jsx` for navigation, and the theme tokens in `src/index.css` for styling. Pure calculations, storage and validation live in `src/utils/shop.js`. Page components are in `src/pages/` and shared controls in `src/components/`.
+## Project Structure
 
-Images are from Unsplash and covered by its [free image license](https://unsplash.com/license). Source URLs are recorded in `src/data/menu.js`. Review and replace the illustrative photos with owned restaurant assets before production. Playfair Display and Inter are loaded through Google Fonts.
+```text
+├── public/images/          # Local stock images and fallback
+├── scripts/                # Image downloads, preflight, walkthrough capture
+├── src/
+│   ├── components/UI.jsx   # Shared interface components
+│   ├── data/menu.js        # Menu records and image sources
+│   ├── pages/              # Route components
+│   ├── utils/shop.js       # Filtering, totals, storage, validation
+│   ├── App.jsx             # App shell, routes, shared cart state
+│   ├── index.css           # Theme, layouts, responsive styles
+│   └── main.jsx            # React entry point
+├── tests/                  # Unit and optional browser checks
+├── package.json
+├── vercel.json             # Vercel build and SPA rewrites
+└── vite.config.js
+```
 
-The current design uses a near-black canvas, decorative red accents, Facebook Blue action buttons, a split hero and circular food cards. Shared design tokens in `src/index.css` control the dark styling across every route. The Contact page includes an external Google Maps embed of Toronto, clearly labelled as a demo city location; it requires internet access and does not identify a real restaurant.
+## Demo Limitations
 
-## Deploy to Vercel
+- **No real transactions:** there is no backend, authentication, booking service, payment processing, order fulfilment, or message delivery. Use sample form details.
+- **Local demo data:** cart contents and reservation date, time, guest count, and reference are stored in the current browser. Names, emails, delivery addresses, and messages are not persisted or submitted by the forms. Checkout receipts exist only while the checkout component remains mounted. Clear site storage to reset saved data.
+- **Illustrative business details:** availability, hours, fees, taxes, location, and dietary labels are examples. Dietary labels do not establish allergen safety.
+- **External resources:** Google Fonts and Google Maps require internet access. Photography is illustrative, sourced from Unsplash; source URLs are listed in `src/data/menu.js`. See the [Unsplash License](https://unsplash.com/license).
+- **Production integration:** a real restaurant would need server-side validation, booking and order management, approved payments, business policies, and verified operational content.
 
-No Vercel deployment has been performed. The existing GitHub remote is `https://github.com/awaljanhematyar/ember-oak-restaurant.git`; do not create another repository.
+## Author
 
-After the owner authorizes publishing:
+**Awal Jan Hematyar** · [GitHub Profile](https://github.com/awaljanhematyar)
 
-1. Run `npm test`, `npm run build` and `npm run preflight`. Review `git status --short --untracked-files=all` before staging; never force-add private documents.
-2. Commit and push only the reviewed implementation files to the existing GitHub repository.
-3. Import that repository into Vercel using the Vite preset, install command `npm ci`, build command `npm run build`, and output directory `dist`. Use a supported Node version satisfying Vite's requirement above. No environment variables or API keys are required for this demo.
-4. Deploy, then directly load and refresh `/menu`, `/reservations`, `/checkout` and an unknown route. Confirm images retain their image content types, the Toronto map loads, and the primary flows work on the live URL.
-
-`vercel.json` declares the Vite build/output settings and SPA deep-link rewrites while retaining static asset paths. `.vercelignore` excludes private documents and local credentials from CLI source uploads. Live Vercel rewrite behavior still needs verification after deployment.
-
-The six private planning documents and Master Prompt filename variants are ignored by Git and excluded from Vercel source uploads. `.env` files, credential/key files, local service/editor metadata, dependencies, build output and QA artifacts are excluded as appropriate. `npm run preflight` checks private-document exclusions and scans Git-eligible text files for known credential patterns without printing secret values. It does not stage files and cannot replace manual review or guarantee detection of every possible secret. Nothing should be committed or pushed until the owner requests it.
-
-## Final quality check — 2026-10-20
-
-- `npm test`: 9 tests passed.
-- `npm run build`: succeeded; React Router emits non-fatal client-directive warnings during this client-only build.
-- Production browser QA in Microsoft Edge: ten routes at 375, 768, 1024 and 1440 pixels with no horizontal overflow or observed runtime page errors. Verified internal link targets, image loading/fallback, combined menu filters, cart add/increase/decrease/remove and reload persistence, pickup/delivery checkout, reservation validation/local metadata, contact simulation, mobile navigation and gallery keyboard focus.
-- Google Maps loaded its provider interface in the responsive, clearly labelled Toronto demo frame.
-- Git exclusions and a known-credential-pattern scan passed before initial publication.
-
-This is ready for portfolio-demo deployment. Safari/Firefox, assistive-technology certification and the live Vercel URL have not been tested. Reservations, orders and contact messages remain simulations; production business integrations are listed below.
-
-## Production integrations still needed
-
-Real inventory and availability, server-side validation, booking management, order fulfilment, consent/privacy policies, transactional messaging, rate limiting and monitoring. Payments require an approved hosted payment integration and server verification. Replace fictional contact details, review taxes and delivery rules, and verify allergen processes with the business.
+Built as a frontend portfolio project to demonstrate restaurant interface design, responsive React development, and interactive customer journeys.
